@@ -1,4 +1,5 @@
 const express = require('express')
+require('dotenv').config()
 const  mongoose  = require('mongoose')
 const passport = require('passport')
 const session = require('express-session');
@@ -19,7 +20,7 @@ app.use(bodyParser.json());
 
 // Express session midleware
 app.use(session({
-    secret: 'secret',
+    secret: process.env.SESSION_SECRET,
     resave: true,
     saveUninitialized: true
   }));
