@@ -4,6 +4,7 @@ const  mongoose  = require('mongoose')
 const passport = require('passport')
 const session = require('express-session');
 const bodyParser = require('body-parser');
+var cors = require('cors');
 const app = express()
 
 //get rid of warning 
@@ -18,6 +19,9 @@ mongoose.connect('mongodb+srv://root:613387@cluster0-fhku0.azure.mongodb.net/tes
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//cors set
+app.use(cors());
+
 // Express session midleware
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -29,8 +33,11 @@ app.use(session({
 
   
 const user = require('./routes/user');
+const usercase = require('./routes/usercase');
+
 
 app.use('/user',user);
+app.use('/usercase', usercase);
 
 
 const port = process.env.PORT || 5000;
