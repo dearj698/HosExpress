@@ -13,7 +13,6 @@ var adds = function(db,collections,selector,fn){
             console.log(e);
           }
       fn(result);
-      db.close();
     });
   }
 
@@ -24,8 +23,7 @@ var deletes = function(db,collections,selector,fn){
       try{assert.equal(err,null)}catch(e){
         console.log(e);
       }
-      fn(result);
-      db.close();
+      fn(result); 
     });
   
   };
@@ -42,7 +40,6 @@ var find = function(db,collections,selector,fn){
           docs = [];
         }
         fn(docs);
-        db.close();
       });
   }
 
@@ -55,7 +52,6 @@ var updates = function(db,collections,selector,fn){
             console.log(e);
           }
       fn(result);
-      db.close();
     });
   
   }
@@ -63,10 +59,10 @@ var updates = function(db,collections,selector,fn){
   var methodType = {
         login:find,
         show:find,
-        add:add,
+        add:adds,
         update:updates,
         delete:deletes,
-        adduser:add,
+        adduser:adds,
         usershow:find,
         getcategory:find,
         find:find,
@@ -77,14 +73,14 @@ var updates = function(db,collections,selector,fn){
         showdir:find
   };
 
-  module.exports = function(req,res,collections,selector,fn){
+  module.exports = function(req,collections,selector,fn){
     MongoClient.connect(Urls,{useNewUrlParser: true,useUnifiedTopology: true},function(err, client) {
         var db = client.db(database);
         try{assert.equal(err,null)}catch(e){
             console.log(e);
           }
-        console.log("Connected correctly to server at http://${hostname}:${port}/");
-        methodType[req.query.action](db,collections,selector,fn);
+        console.log("Connected correctly to server");
+        methodType[req](db,collections,selector,fn);
         client.close();
     });
   };
