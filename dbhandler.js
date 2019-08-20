@@ -8,7 +8,7 @@ var database = "admin";
 // adds data
 var adds = function(db,collections,selector,fn){
     var collection = db.collection(collections);
-    collection.insertMany([selector],function(err,result){
+    collection.insertMany(selector,function(err,result){
         try{assert.equal(err,null)}catch(e){
             console.log(e);
           }
